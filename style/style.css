@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+}
+
+main {
+  background: hsl(229, 24%, 87%);
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.white-container {
+  width: 70vw;
+  height: 85vh;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.left {
+  height: 100%;
+  width: 30%;
+  position: relative;
+}
+
+.right {
+  width: 70%;
+}
+
+.left img {
+  height: 100%;
+  width: 100%;
+}
+
+.info--on--left {
+  position: absolute;
+  top: 5%;
+  left: 20%;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  letter-spacing: 1px;
+  padding: 0.5em 0;
+}
+
+.step .num {
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 0.5em 0.7em;
+  margin-right: 1em;
+}
+
+.filled-num {
+  background-color: hsl(206, 94%, 87%);
+  color: #000;
+}
+
+.step small {
+  font-size: 0.8em;
+  font-weight: 400 !important;
+  color: hsl(229, 24%, 87%);
+}
+
+.step h6 {
+  font-size: 0.8em;
+}
+
+.next-btn {
+  background: hsl(213, 96%, 18%);
+  color: #fff;
+}
+
+.next-btn:hover {
+  border-color: hsl(213, 96%, 18%);
+  color: hsl(213, 96%, 18%);
+}
+
+.plan-btn,
+.plan-btn:hover {
+  border: 1px solid hsl(231, 11%, 63%);
+  width: 27%;
+  padding: 0.8em;
+  padding-top: 0;
+}
+
+.selected-plan-btn {
+  border-color: hsl(213, 96%, 18%) !important;
+}
+
+.form-check-input {
+  transform: scale(1.4);
+}
+
+.label-off {
+  color: hsl(231, 11%, 63%);
+}
+
+.label-on {
+  color: hsl(213, 96%, 18%);
+}
+
+.add-ons-btn,
+.add-ons-btn:hover {
+  margin: 0.5em 0;
+  border: 1px solid hsl(229, 24%, 87%);
+}
+
+.add-ons-btn img,
+.empty {
+  background-color: hsl(243, 100%, 62%);
+  padding: 0.5em 0.4em;
+  border-radius: 3px;
+  margin: 0 1em;
+}
+
+.empty {
+  border: 1px solid hsl(229, 24%, 87%);
+  padding: 0.7em;
+  background-color: transparent;
+}
+.add-ons-info {
+  width: 75%;
+  padding-left: 0.5em;
+}
+
+.card {
+  background: hsl(206, 94%, 87%, 20%);
+  border: 0;
+}
+
+.thanks img {
+  width: 100px;
+  height: 100px;
+}
+
+@media (max-width: 1199px) {
+  .white-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    min-height: 100vh;
+    width: 100%;
+  }
+  .white-container {
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
+    flex-flow: column nowrap;
+    background: hsl(229, 24%, 87%) !important;
+  }
+  .left .info,
+  .left img {
+    display: none;
+  }
+  .left {
+    width: 100%;
+    min-height: 25vh !important;
+    background: url("../assets/images/bg-sidebar-mobile.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .info--on--left {
+    flex-flow: row nowrap !important;
+    width: fit-content;
+    top: 20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .right {
+    width: 80%;
+    transform: translateY(-50px);
+
+    padding: 0 !important;
+  }
+
+  .inside {
+    padding: 1em !important;
+    background: #fff;
+    border-radius: 10px;
+  }
+
+  .next-btn-div {
+    align-self: stretch !important;
+  }
+
+  .next-btn {
+    width: 100%;
+    padding: 0.3em;
+  }
+
+  .step-one-form input {
+    padding: 0 0.5em !important;
+    font-size: 1em;
+  }
+
+  .btns button {
+    width: auto;
+    padding: 0.3em;
+  }
+
+  .step-two-form {
+    .checkmark-div label {
+      font-size: 1em;
+    }
+    .checkmark-div input {
+      transform: scale(1.2);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .plan-div {
+    flex-flow: column nowrap;
+    row-gap: 10px;
+  }
+  .plan-btn,
+  .plan-btn:hover {
+    flex-flow: row nowrap !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .plan-btn h5 {
+    font-size: 1.1em;
+  }
+  .add-ons-btn img,
+  .add-ons-btn .empty {
+    transform: scale(0.7);
+    margin: 0 0.2em;
+  }
+  .add-ons-btn p {
+    font-size: 0.85em !important;
+  }
+  .add-ons-btn h6 {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 450px) {
+  .add-ons-btn p {
+    font-size: 0.7em !important;
+  }
+}
