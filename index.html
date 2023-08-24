@@ -17,8 +17,8 @@
         <div class="left">
           <img src="./assets/images/bg-sidebar-desktop.svg" class="img-fluid" alt="" />
           <div class="info--on--left d-flex flex-column text-uppercase text-white">
-            <div class="step--1 step">
-              <div class="num filled-num">
+            <div class="step">
+              <div class="num step--1 filled-num">
                 <h6 class="m-0">1</h6>
               </div>
               <div class="info">
@@ -26,8 +26,8 @@
                 <h6>Your info</h6>
               </div>
             </div>
-            <div class="step--2 step">
-              <div class="num">
+            <div class="step">
+              <div class="num step--2">
                 <h6 class="m-0">2</h6>
               </div>
               <div class="info">
@@ -35,8 +35,8 @@
                 <h6>select plan</h6>
               </div>
             </div>
-            <div class="step--3 step">
-              <div class="num">
+            <div class="step">
+              <div class="num step--3">
                 <h6 class="m-0">3</h6>
               </div>
               <div class="info">
@@ -44,8 +44,8 @@
                 <h6>add-ons</h6>
               </div>
             </div>
-            <div class="step--4 step">
-              <div class="num">
+            <div class="step">
+              <div class="num step--4">
                 <h6 class="m-0">4</h6>
               </div>
               <div class="info">
@@ -56,7 +56,7 @@
           </div>
         </div>
         <!-- d-none -->
-        <div class="right px-5 step-one-form">
+        <div class="right px-5 step-one-form d-none">
           <form>
             <div class="inside d-flex flex-column px-5">
               <h2>Personal info</h2>
@@ -86,41 +86,44 @@
                 </div>
               </div>
               <div class="form-group pt-3 pt-lg-5 align-self-end next-btn-div">
-                <button type="submit" class="btn btn-lg next-btn">Next Step</button>
+                <button type="submit" class="btn btn-lg next-btn" data-go="step-two-form">Next Step</button>
               </div>
             </div>
           </form>
         </div>
         <!-- d-none -->
-        <div class="right px-5 step-two-form d-none">
+        <div class="right px-5 step-two-form">
           <form>
             <div class="inside d-flex flex-column px-5">
               <h2>Select your plan</h2>
               <p class="text-secondary">You have the option of monthly or yearly billing.</p>
               <!-- is-invalid -->
-              <div class="form-group py-lg-4 d-flex align-items-center justify-content-between plan-div is-">
+              <div class="form-group py-lg-4 d-flex align-items-center justify-content-between plan-div">
                 <button class="btn d-flex flex-column plan-btn selected-plan-btn">
                   <img src="./assets/images/icon-arcade.svg" alt="" class="pt-3 pb-md-5" />
                   <h5 class="m-0">Arcade</h5>
-                  <p class="text-secondary m-0">&#36;9/mo</p>
+                  <p class="text-secondary m-0 year-rate">&#36;90/yr</p>
+                  <p class="text-secondary m-0 month-rate d-none">&#36;9/mo</p>
                   <!-- if yearly -->
-                  <small>2 months free</small>
+                  <small class="year-rate">2 months free</small>
                 </button>
 
                 <button class="btn d-flex flex-column plan-btn">
                   <img src="./assets/images/icon-advanced.svg" alt="" class="pt-3 pb-md-5" />
                   <h5 class="m-0">Advanced</h5>
-                  <p class="text-secondary m-0">&#36;12/mo</p>
+                  <p class="text-secondary m-0 year-rate">&#36;120/yr</p>
+                  <p class="text-secondary m-0 month-rate d-none">&#36;12/mo</p>
                   <!-- if yearly -->
-                  <small>2 months free</small>
+                  <small class="year-rate">2 months free</small>
                 </button>
 
                 <button class="btn d-flex flex-column plan-btn">
                   <img src="./assets/images/icon-pro.svg" alt="" class="pt-3 pb-md-5" />
                   <h5 class="m-0">Pro</h5>
-                  <p class="text-secondary m-0">&#36;15/mo</p>
+                  <p class="text-secondary m-0 year-rate">&#36;150/yr</p>
+                  <p class="text-secondary m-0 month-rate d-none">&#36;15/mo</p>
                   <!-- if yearly -->
-                  <small>2 months free</small>
+                  <small class="year-rate">2 months free</small>
                 </button>
               </div>
 
@@ -129,16 +132,16 @@
               </div>
 
               <div class="d-flex align-items-center justify-content-evenly py-4 pb-lg-5 checkmark-div">
-                <label class="form-check-label h5 label-off" for="plan-switch">Monthly</label>
+                <label class="form-check-label h5 label-off" id="monthly" for="plan-switch">Monthly</label>
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" role="switch" id="plan-switch" checked />
                 </div>
-                <label class="form-check-label h5 label-on" for="plan-switch">Yearly</label>
+                <label class="form-check-label h5 label-on" id="yearly" for="plan-switch">Yearly</label>
               </div>
 
               <div class="d-flex align-items-center justify-content-between pt-3 pt-lg-5 btns">
-                <button type="submit" class="btn btn-lg prev-btn">Go Back</button>
-                <button type="submit" class="btn btn-lg next-btn">Next Step</button>
+                <button type="submit" class="btn btn-lg prev-btn" data-go="step-one-form">Go Back</button>
+                <button type="submit" class="btn btn-lg next-btn" data-go="step-three-form">Next Step</button>
               </div>
             </div>
           </form>
@@ -175,7 +178,7 @@
                 </button>
 
                 <!-- is-invalid -->
-                <button class="btn d-flex align-items-center w-100 add-ons-btn py-3 is-invalid">
+                <button class="btn d-flex align-items-center w-100 add-ons-btn py-3">
                   <img src="./assets/images/icon-checkmark.svg" class="d-none" />
                   <div class="empty"></div>
                   <div class="d-flex flex-column align-items-start add-ons-info">
@@ -192,8 +195,8 @@
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between pt-3 pt-lg-5 btns w-100">
-                  <button type="submit" class="btn btn-lg prev-btn">Go Back</button>
-                  <button type="submit" class="btn btn-lg next-btn">Next Step</button>
+                  <button type="submit" class="btn btn-lg prev-btn" data-go="step-two-form">Go Back</button>
+                  <button type="submit" class="btn btn-lg next-btn" data-go="step-four-form">Next Step</button>
                 </div>
               </div>
             </div>
@@ -230,8 +233,8 @@
               </div>
 
               <div class="d-flex align-items-center justify-content-between pt-3 pt-lg-5 btns w-100">
-                <button type="submit" class="btn btn-lg prev-btn">Go Back</button>
-                <button type="submit" class="btn btn-lg btn-primary">Next Step</button>
+                <button type="submit" class="btn btn-lg prev-btn" data-go="step-three-form">Go Back</button>
+                <button type="submit" class="btn btn-lg btn-primary" data-go="thanks">Next Step</button>
               </div>
             </div>
           </form>
