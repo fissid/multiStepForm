@@ -1,4 +1,59 @@
 class MultistepForm {
+  data = {
+    personalInfo: {
+      name: this.name,
+      email: this.email,
+      phone: this.phone,
+    },
+    yearly: {
+      plan: {
+        arcade: 9,
+        advanced: 12,
+        pro: 15,
+      },
+      addOns: {
+        service: {
+          name: "Online service",
+          info: "Access to multiplayer games",
+          rate: 10,
+        },
+        stotage: {
+          name: "Larger storage",
+          info: "Extra 1TB of cloud save",
+          rate: 20,
+        },
+        profile: {
+          name: "Customizable profile",
+          info: "Custom theme on your profile",
+          rate: 20,
+        },
+      },
+    },
+    monthly: {
+      plan: {
+        arcade: 90,
+        advanced: 120,
+        pro: 150,
+      },
+      addOns: {
+        service: {
+          name: "Online service",
+          info: "Access to multiplayer games",
+          rate: 1,
+        },
+        stotage: {
+          name: "Larger storage",
+          info: "Extra 1TB of cloud save",
+          rate: 2,
+        },
+        profile: {
+          name: "Customizable profile",
+          info: "Custom theme on your profile",
+          rate: 2,
+        },
+      },
+    },
+  };
   constructor() {
     this.stepsOnLeftNums = document.querySelectorAll(".info--on--left .num");
     this.stepsOnLeft = document.querySelector(".info--on--left");
@@ -7,7 +62,6 @@ class MultistepForm {
     this.pageThree = document.querySelector(".step-three-form");
     this.pageFour = document.querySelector(".step-four-form");
     this.pageThanks = document.querySelector(".thanks");
-    this.nextBtn = document.querySelectorAll(".next-btn");
     this.prevBtn = document.querySelectorAll(".prev-btn");
     this.nameInput = document.querySelector("#name");
     this.emailInput = document.querySelector("#email");
@@ -19,8 +73,11 @@ class MultistepForm {
     this.phone;
     this.plan;
     this.timePlan = "Yearly";
+    this.addOns;
+    this.pac = {};
     // this.stepOne();
     this.stepTwo();
+    // this.thanking();
   }
 
   checkInputs(nameEl, emailEl, phoneEl) {
@@ -80,6 +137,7 @@ class MultistepForm {
   }
 
   stepOne() {
+    const nextBtn = this.pageOne.querySelector(".next-btn");
     this.selectStep(1);
     this.nameInput.focus();
     this.nameInput.addEventListener("focusout", () => {
@@ -94,14 +152,12 @@ class MultistepForm {
       this.checkInputs(null, null, this.phoneInput);
     });
 
-    this.nextBtn.forEach((each) => {
-      each.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (!this.nameInput.classList.contains("is-invalid") && !this.emailInput.classList.contains("is-invalid") && !this.phoneInput.classList.contains("is-invalid")) {
-          this.goToPage(this.pageOne, document.querySelector(`.${e.target.dataset.go}`));
-          this.stepTwo();
-        }
-      });
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!this.nameInput.classList.contains("is-invalid") && !this.emailInput.classList.contains("is-invalid") && !this.phoneInput.classList.contains("is-invalid")) {
+        this.goToPage(this.pageOne, document.querySelector(`.${e.target.dataset.go}`));
+        this.stepTwo();
+      }
     });
   }
 
@@ -111,6 +167,8 @@ class MultistepForm {
     const monthly = this.planCheckDiv.querySelector("#monthly");
     const monthRate = document.querySelectorAll(".month-rate");
     const yearRate = document.querySelectorAll(".year-rate");
+    const nextBtn = this.pageTwo.querySelector(".next-btn");
+    const prevBtn = this.pageTwo.querySelector(".prev-btn");
     this.planDiv.classList.remove("is-invalid");
     this.selectStep(2);
 
@@ -153,31 +211,97 @@ class MultistepForm {
       });
     });
 
-    this.nextBtn.forEach((each) => {
-      each.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.planDiv.classList.remove("is-invalid");
-        if (this.plan) {
-          this.goToPage(this.pageTwo, document.querySelector(`.${e.target.dataset.go}`));
-          this.stepThree();
-        } else {
-          // here
-          this.planDiv.classList.add("is-invalid");
-        }
-      });
-    });
-
-    this.prevBtn.forEach((each) => {
-      each.addEventListener("click", (e) => {
-        e.preventDefault();
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.planDiv.classList.remove("is-invalid");
+      if (this.plan) {
         this.goToPage(this.pageTwo, document.querySelector(`.${e.target.dataset.go}`));
-        this.stepOne();
-      });
+        this.stepThree();
+      } else {
+        this.planDiv.classList.add("is-invalid");
+      }
+    });
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.goToPage(this.pageTwo, document.querySelector(`.${e.target.dataset.go}`));
+      this.stepOne();
     });
   }
 
-  stepThree() {}
-  stepFour() {}
-  thanking() {}
+  stepThree() {
+    const nextBtn = this.pageThree.querySelector(".next-btn");
+    const prevBtn = this.pageThree.querySelector(".prev-btn");
+    const addOnsBtns = document.querySelectorAll(".add-ons-btn");
+    this.selectStep(3);
+
+    addOnsBtns.forEach((each) => {
+      each.addEventListener("click", (e) => {
+        e.preventDefault();
+        addOnsBtns.forEach((eachAddsOn) => {
+          eachAddsOn.classList.remove("selected-plan-btn");
+          eachAddsOn.querySelector("img").classList.add("d-none");
+          eachAddsOn.querySelector(".empty").classList.remove("d-none");
+        });
+        const clicked = e.target.closest("button");
+        clicked.classList.add("selected-plan-btn");
+        clicked.querySelector("img").classList.remove("d-none");
+        clicked.querySelector(".empty").classList.add("d-none");
+        this.addOns = clicked.querySelector(".add-ons-info h6").textContent;
+      });
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      addOnsBtns[0].classList.add("is-invalid");
+      if (this.addOns) {
+        this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
+        this.thanking();
+      } else {
+        addOnsBtns[0].classList.add("is-invalid");
+      }
+    });
+
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
+      this.stepTwo();
+    });
+  }
+
+  thanking() {
+    // this.summary = {
+    //   timePlan: this.timePlan,
+    //   plan: this.plan,
+    //   addOns: this.addOns,
+    //   total: 0,
+    // };
+    this.summary = {
+      timePlan: "Monthly",
+      plan: "Advanced",
+      addOns: ["Large storage", "Online service"],
+      total: 0,
+    };
+
+    const summaryHtml = `<div class="card p-2 px-4 mt-4">
+                            <div class="card-body d-flex align-items-center justify-content-between py-3">
+                              <div class="d-flex flex-column align-items-start">
+                                <h5>Arcade <span>(${this.timePlan})</span></h5>
+                                <button class="btn btn-link text-secondary p-0">Change</button>
+                              </div>
+                              <h5>&#36;9/mo</h5>
+                            </div>
+                            <div class="card-body d-flex flex-column align-items-start border-top py-3">
+                              <div class="d-flex justify-content-between w-100">
+                                <p class="text-secondary">Online service</p>
+                                <h6>+&#36;1/mo</h6>
+                              </div>
+                              <div class="d-flex justify-content-between w-100">
+                                <p class="text-secondary m-0">Larger storage</p>
+                                <h6>+&#36;2/mo</h6>
+                              </div>
+                            </div>
+                          </div>`;
+    console.log(this.summary);
+  }
 }
 new MultistepForm();
