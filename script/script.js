@@ -237,15 +237,10 @@ class MultistepForm {
     addOnsBtns.forEach((each) => {
       each.addEventListener("click", (e) => {
         e.preventDefault();
-        addOnsBtns.forEach((eachAddsOn) => {
-          eachAddsOn.classList.remove("selected-plan-btn");
-          eachAddsOn.querySelector("img").classList.add("d-none");
-          eachAddsOn.querySelector(".empty").classList.remove("d-none");
-        });
         const clicked = e.target.closest("button");
-        clicked.classList.add("selected-plan-btn");
-        clicked.querySelector("img").classList.remove("d-none");
-        clicked.querySelector(".empty").classList.add("d-none");
+        clicked.classList.toggle("selected-plan-btn");
+        clicked.querySelector("img").classList.toggle("d-none");
+        clicked.querySelector(".empty").classList.toggle("d-none");
         this.addOns = clicked.querySelector(".add-ons-info h6").textContent;
       });
     });
