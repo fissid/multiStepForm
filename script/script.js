@@ -73,8 +73,10 @@ class MultistepForm {
     this.phone;
     this.plan;
     this.timePlan = "Yearly";
+    this.planRate;
     this.addOns;
-    this.pac = {};
+    this.totalPayment = 0;
+
     // this.stepOne();
     this.stepTwo();
     // this.thanking();
@@ -208,6 +210,7 @@ class MultistepForm {
         });
         each.classList.add("selected-plan-btn");
         this.plan = each.querySelector("h5").textContent;
+        this.planRate = each.querySelector(`.${this.timePlan.toLowerCase().replace("ly", "")}-rate`).textContent;
       });
     });
 
@@ -250,7 +253,39 @@ class MultistepForm {
       addOnsBtns[0].classList.add("is-invalid");
       if (this.addOns) {
         this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
-        this.thanking();
+        let summaryHtml = `<div class="card p-2 px-4 mt-4">
+                              <div class="card-body d-flex align-items-center justify-content-between py-3">
+                                <div class="d-flex flex-column align-items-start">
+                                  <h5>${this.plan} <span>(${this.timePlan})</span></h5>
+                                  <button class="btn btn-link text-secondary p-0" id="change-btn">Change</button>
+                                </div>
+                                <h5>${this.planRate}</h5>
+                              </div>
+                              <div class="card-body d-flex flex-column align-items-start border-top py-3"></div>
+                            </div>`;
+        this.pageFour.querySelector(".card").insertAdjacentHTML("afterbegin", summaryHtml);
+
+        addOnsBtns.forEach((each) => {
+          if (each.classList.contains("selected-plan-btn")) {
+            const addOnsHtml = `<div class="d-flex justify-content-between w-100">
+              <p class="text-secondary">${each.querySelector(".add-ons-info h6").textContent}</p>
+              <h6 class="add-ons-fees">${each.querySelector(`.${this.timePlan.toLowerCase().replace("ly", "")}-rate`).textContent}</h6>
+            </div>`;
+            this.pageFour.querySelector(".card-body").insertAdjacentHTML("afterend", addOnsHtml);
+          }
+        });
+
+        this.totalPayment += Number.parseFloat(this.planRate.slice(1));
+        this.pageFour.querySelectorAll(".add-ons-fees").forEach((each) => {
+          this.totalPayment += Number.parseFloat(each.textContent.slice(2));
+        });
+        const totalHtml = `<div class="d-flex align-items-center justify-content-between px-4 py-3">
+                          <p class="text-secondary m-0">Total (per <span>${this.timePlan.replace("ly", "")}</span>)</p>
+                          <h5 class="total text-primary">&#36;${this.totalPayment}</h5>
+                        </div>`;
+
+        this.pageFour.querySelector(".card").insertAdjacentHTML("afterend", totalHtml);
+        this.stepFour();
       } else {
         addOnsBtns[0].classList.add("is-invalid");
       }
@@ -258,45 +293,16 @@ class MultistepForm {
 
     prevBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      this.pageFour.querySelector(".text-secondary").insertAdjacentHTML("afterend", cardHtml);
       this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
       this.stepTwo();
     });
   }
 
-  thanking() {
-    // this.summary = {
-    //   timePlan: this.timePlan,
-    //   plan: this.plan,
-    //   addOns: this.addOns,
-    //   total: 0,
-    // };
-    this.summary = {
-      timePlan: "Monthly",
-      plan: "Advanced",
-      addOns: ["Large storage", "Online service"],
-      total: 0,
-    };
+  stepFour() {}
 
-    const summaryHtml = `<div class="card p-2 px-4 mt-4">
-                            <div class="card-body d-flex align-items-center justify-content-between py-3">
-                              <div class="d-flex flex-column align-items-start">
-                                <h5>Arcade <span>(${this.timePlan})</span></h5>
-                                <button class="btn btn-link text-secondary p-0">Change</button>
-                              </div>
-                              <h5>&#36;9/mo</h5>
-                            </div>
-                            <div class="card-body d-flex flex-column align-items-start border-top py-3">
-                              <div class="d-flex justify-content-between w-100">
-                                <p class="text-secondary">Online service</p>
-                                <h6>+&#36;1/mo</h6>
-                              </div>
-                              <div class="d-flex justify-content-between w-100">
-                                <p class="text-secondary m-0">Larger storage</p>
-                                <h6>+&#36;2/mo</h6>
-                              </div>
-                            </div>
-                          </div>`;
-    console.log(this.summary);
+  thanking() {
+    console.log(this.summaryHtml);
   }
 }
 new MultistepForm();
