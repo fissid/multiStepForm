@@ -56,7 +56,7 @@
           </div>
         </div>
         <!-- d-none -->
-        <div class="right px-5 step-one-form d-none">
+        <div class="right px-5 step-one-form">
           <form>
             <div class="inside d-flex flex-column px-5">
               <h2>Personal info</h2>
@@ -92,7 +92,7 @@
           </form>
         </div>
         <!-- d-none -->
-        <div class="right px-5 step-two-form">
+        <div class="right px-5 step-two-form d-none">
           <form>
             <div class="inside d-flex flex-column px-5">
               <h2>Select your plan</h2>
@@ -205,10 +205,11 @@
         <!-- d-none -->
         <div class="right px-5 step-four-form d-none">
           <form>
-            <div class="inside d-flex flex-column px-5">
+            <div class="inside d-flex flex-column px-5 d-none">
               <h2>Finishing up</h2>
               <p class="text-secondary">Double-check everything looks OK before confirming.</p>
               <div class="card p-2 px-4 mt-4">
+                <!--  -->
                 <!-- <div class="card-body d-flex align-items-center justify-content-between py-3">
                   <div class="d-flex flex-column align-items-start">
                     <h5>Arcade <span>(Monthly)</span></h5>
@@ -226,14 +227,17 @@
                     <h6>+&#36;2/mo</h6>
                   </div>
                 </div> -->
+                <!--  -->
               </div>
+              <!--  -->
               <!-- <div class="d-flex align-items-center justify-content-between px-4 py-3">
                 <p class="text-secondary m-0">Total (per <span>month</span>)</p>
                 <h5 class="total text-primary">+&#36;12/mo</h5>
               </div> -->
+              <!--  -->
               <div class="d-flex align-items-center justify-content-between pt-3 pt-lg-5 btns w-100">
                 <button type="submit" class="btn btn-lg prev-btn" data-go="step-three-form">Go Back</button>
-                <button type="submit" class="btn btn-lg btn-primary" data-go="thanks">Next Step</button>
+                <button type="submit" class="btn btn-lg next-btn">Next Step</button>
               </div>
             </div>
           </form>
