@@ -74,10 +74,14 @@ class MultistepForm {
       each.classList.remove("filled-num");
     });
     this.stepsOnLeft.querySelector(`.step--${stepNum}`).classList.add("filled-num");
+    // this.stepsOnLeft.querySelector(`.step--${stepNum}`).style.opacity = "0";
+    // this.stepsOnLeft.querySelector(`.step--${stepNum}`).classList.add("appear");
   }
 
   goToPage(curr, targetPage) {
+    targetPage.style.opacity = "0";
     curr.classList.add("d-none");
+    targetPage.classList.add("appear");
     targetPage.classList.remove("d-none");
   }
 
