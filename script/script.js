@@ -1,59 +1,4 @@
 class MultistepForm {
-  data = {
-    personalInfo: {
-      name: this.name,
-      email: this.email,
-      phone: this.phone,
-    },
-    yearly: {
-      plan: {
-        arcade: 9,
-        advanced: 12,
-        pro: 15,
-      },
-      addOns: {
-        service: {
-          name: "Online service",
-          info: "Access to multiplayer games",
-          rate: 10,
-        },
-        stotage: {
-          name: "Larger storage",
-          info: "Extra 1TB of cloud save",
-          rate: 20,
-        },
-        profile: {
-          name: "Customizable profile",
-          info: "Custom theme on your profile",
-          rate: 20,
-        },
-      },
-    },
-    monthly: {
-      plan: {
-        arcade: 90,
-        advanced: 120,
-        pro: 150,
-      },
-      addOns: {
-        service: {
-          name: "Online service",
-          info: "Access to multiplayer games",
-          rate: 1,
-        },
-        stotage: {
-          name: "Larger storage",
-          info: "Extra 1TB of cloud save",
-          rate: 2,
-        },
-        profile: {
-          name: "Customizable profile",
-          info: "Custom theme on your profile",
-          rate: 2,
-        },
-      },
-    },
-  };
   constructor() {
     this.stepsOnLeftNums = document.querySelectorAll(".info--on--left .num");
     this.stepsOnLeft = document.querySelector(".info--on--left");
@@ -77,9 +22,7 @@ class MultistepForm {
     this.addOns;
     this.totalPayment = 0;
 
-    // this.stepOne();
-    this.stepTwo();
-    // this.thanking();
+    this.stepOne();
   }
 
   checkInputs(nameEl, emailEl, phoneEl) {
@@ -231,29 +174,17 @@ class MultistepForm {
     });
   }
 
-  stepThree() {
-    const nextBtn = this.pageThree.querySelector(".next-btn");
-    const prevBtn = this.pageThree.querySelector(".prev-btn");
+  setSummary() {
     const addOnsBtns = document.querySelectorAll(".add-ons-btn");
-    this.selectStep(3);
-
-    addOnsBtns.forEach((each) => {
-      each.addEventListener("click", (e) => {
-        e.preventDefault();
-        const clicked = e.target.closest("button");
-        clicked.classList.toggle("selected-plan-btn");
-        clicked.querySelector("img").classList.toggle("d-none");
-        clicked.querySelector(".empty").classList.toggle("d-none");
-        this.addOns = clicked.querySelector(".add-ons-info h6").textContent;
+    this.pageFour.querySelector(".card").innerHTML = "";
+    this.totalPayment = 0;
+    // remove all the totals which has added before
+    if (this.pageFour.querySelectorAll(".total-div").length) {
+      this.pageFour.querySelectorAll(".total-div").forEach((each) => {
+        each.remove();
       });
-    });
-
-    nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      addOnsBtns[0].classList.add("is-invalid");
-      if (this.addOns) {
-        this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
-        let summaryHtml = `<div class="card p-2 px-4 mt-4">
+    }
+    let summaryHtml = `     <div class="card p-2 px-4 mt-4">
                               <div class="card-body d-flex align-items-center justify-content-between py-3">
                                 <div class="d-flex flex-column align-items-start">
                                   <h5>${this.plan} <span>(${this.timePlan})</span></h5>
@@ -263,28 +194,62 @@ class MultistepForm {
                               </div>
                               <div class="card-body d-flex flex-column align-items-start border-top py-3"></div>
                             </div>`;
-        this.pageFour.querySelector(".card").insertAdjacentHTML("afterbegin", summaryHtml);
+    this.pageFour.querySelector(".card").insertAdjacentHTML("afterbegin", summaryHtml);
 
-        addOnsBtns.forEach((each) => {
-          if (each.classList.contains("selected-plan-btn")) {
-            const addOnsHtml = `<div class="d-flex justify-content-between w-100">
-              <p class="text-secondary">${each.querySelector(".add-ons-info h6").textContent}</p>
-              <h6 class="add-ons-fees">${each.querySelector(`.${this.timePlan.toLowerCase().replace("ly", "")}-rate`).textContent}</h6>
-            </div>`;
-            this.pageFour.querySelector(".card-body").insertAdjacentHTML("afterend", addOnsHtml);
-          }
-        });
+    addOnsBtns.forEach((each) => {
+      if (each.classList.contains("selected-plan-btn")) {
+        const addOnsHtml = `<div class="d-flex justify-content-between w-100">
+                              <p class="text-secondary">${each.querySelector(".add-ons-info h6").textContent}</p>
+                              <h6 class="add-ons-fees">${each.querySelector(`.${this.timePlan.toLowerCase().replace("ly", "")}-rate`).textContent}</h6>
+                            </div>`;
+        this.pageFour.querySelector(".card-body").insertAdjacentHTML("afterend", addOnsHtml);
+      }
+    });
 
-        this.totalPayment += Number.parseFloat(this.planRate.slice(1));
-        this.pageFour.querySelectorAll(".add-ons-fees").forEach((each) => {
-          this.totalPayment += Number.parseFloat(each.textContent.slice(2));
-        });
-        const totalHtml = `<div class="d-flex align-items-center justify-content-between px-4 py-3">
+    this.totalPayment += Number.parseFloat(this.planRate.slice(1));
+    this.pageFour.querySelectorAll(".add-ons-fees").forEach((each) => {
+      this.totalPayment += Number.parseFloat(each.textContent.slice(2));
+    });
+    const totalHtml = `<div class="d-flex align-items-center justify-content-between total-div px-4 py-3">
                           <p class="text-secondary m-0">Total (per <span>${this.timePlan.replace("ly", "")}</span>)</p>
                           <h5 class="total text-primary">&#36;${this.totalPayment}</h5>
                         </div>`;
 
-        this.pageFour.querySelector(".card").insertAdjacentHTML("afterend", totalHtml);
+    this.pageFour.querySelector(".card").insertAdjacentHTML("afterend", totalHtml);
+  }
+
+  setaddOns(e) {
+    const clicked = e.target.closest("button");
+    clicked.classList.toggle("selected-plan-btn");
+    clicked.querySelector("img").classList.toggle("d-none");
+    clicked.querySelector(".empty").classList.toggle("d-none");
+    this.addOns = clicked.querySelector(".add-ons-info h6").textContent;
+  }
+
+  stepThree() {
+    const nextBtn = this.pageThree.querySelector(".next-btn");
+    const prevBtn = this.pageThree.querySelector(".prev-btn");
+    const addOnsBtns = document.querySelectorAll(".add-ons-btn");
+    this.selectStep(3);
+
+    addOnsBtns.forEach((each) => {
+      each.classList.remove("selected-plan-btn");
+      each.querySelector("img").classList.add("d-none");
+      each.querySelector(".empty").classList.remove("d-none");
+
+      each.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.setaddOns(e);
+      });
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // addOnsBtns[0].classList.add("is-invalid");
+      if (this.addOns) {
+        this.setSummary();
+        this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
         this.stepFour();
       } else {
         addOnsBtns[0].classList.add("is-invalid");
@@ -293,16 +258,37 @@ class MultistepForm {
 
     prevBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      this.pageFour.querySelector(".text-secondary").insertAdjacentHTML("afterend", cardHtml);
       this.goToPage(this.pageThree, document.querySelector(`.${e.target.dataset.go}`));
       this.stepTwo();
     });
   }
 
-  stepFour() {}
+  stepFour() {
+    const nextBtn = this.pageFour.querySelector(".next-btn");
+    const prevBtn = this.pageFour.querySelector(".prev-btn");
+    const changeBtn = this.pageFour.querySelector("#change-btn");
+    this.selectStep(4);
 
-  thanking() {
-    console.log(this.summaryHtml);
+    changeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.goToPage(this.pageFour, this.pageTwo);
+      this.stepTwo();
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.goToPage(this.pageFour, this.pageThanks);
+      this.thanking();
+    });
+
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.goToPage(this.pageFour, document.querySelector(`.${e.target.dataset.go}`));
+      this.stepThree();
+    });
   }
+
+  thanking() {}
 }
+
 new MultistepForm();
